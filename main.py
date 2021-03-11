@@ -2,7 +2,7 @@ import streamlit
 import pandas as pd
 import numpy as np
 
-hallo jongens
+
 
 
 # This is a sample Python script.
