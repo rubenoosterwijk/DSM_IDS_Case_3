@@ -1,3 +1,8 @@
+import streamlit
+import pandas as pd
+import numpy as np
+
+
 # This is a sample Python script.
 
 # Press Shift+F10 to execute it or replace it with your code.
