@@ -15,7 +15,7 @@ st.markdown("* Bezetting laadpalen")
 st.markdown("* Wat is het verschil tussen laden en bezetten van een laadpaal?")
 st.markdown("* Hoe ziet het gemiddelde laadprofiel er uit?")
 st.markdown("* Wat is de verdeling in vermogens? Lekker losjes")
-st.dataframe(laadpaaldata)
+st.dataframe((laadpaaldata).head())
 st.line_chart(laadpaaldata)
 
 
