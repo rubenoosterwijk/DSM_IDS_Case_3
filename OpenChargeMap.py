@@ -1,9 +1,11 @@
-import streamlit as st
+import requests
 import pandas as pd
 import numpy as np
 import seaborn as sns
 
-#Bud De data van de locaties van de laadpalen verstrekken. Onthoud je gaat met de map werken en je moet dus een maar weergeven op streamlit.
-#Kijk alvast naar voorbeelden op de site of we met de map exrtra interactieve dingen kunnen doen (widget gebruik)
+response = requests.get("https://api.openchargemap.io/v3/referencedata/")
+print(response.status_code)
+print(response.text)
+response.json()
 
-#Onderling even uitmaken wie wat gaat onderzoeken
+key=f7903c6a-d2cd-4a10-b012-260c3536974f
