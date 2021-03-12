@@ -1,5 +1,5 @@
 from multiapp import MultiApp
-from apps import OpenChargeMap, OpenDataRDW, main, home # import your app modules here
+from apps import OpenChargeMap, OpenDataRDW, laadpalen, home # import your app modules here
 
 #Maak een instantie van het multipagina framework
 app = MultiApp()
@@ -9,6 +9,6 @@ app = MultiApp()
 app.add_app("Home", home.app)
 app.add_app("OpenCharge", OpenChargeMap.app)
 app.add_app("OpenDataRDW", OpenDataRDW.app)
-app.add_app("main", main.app)
+app.add_app("main", laadpalen.app)
 # The main app
 app.run()
