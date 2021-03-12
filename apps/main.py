@@ -30,7 +30,7 @@ def main():
     st.title('Onderzoek naar laadpalen')
 
     laadpaaldata1 = pd.read_csv('data\\laadpaaldata.csv')
-    laadpaaldata = pd.read_csv('data\\openchargemapnl1.csv')
+    laadpaaldata = pd.read_csv('data\\convertcsv.csv')
 
     # laadpaaldata["OverChargeTime"] = laadpaaldata["ConnectedTime"] - laadpaaldata["ChargeTime"]
     print(laadpaaldata.head())
