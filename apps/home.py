@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 def app():
     st.markdown("""
     # Case 3 - Elektrische Auto's
