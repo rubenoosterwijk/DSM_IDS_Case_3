@@ -15,14 +15,13 @@ import json as js
 # Alles wat je runt per pagina moet in de def app(): komen. Anders runt hij de pagina niet.
 def app():
 
-    openchargemap = pd.read_csv('data\\laadpaallocaties.csv')
+    laadpaaldata = pd.read_csv('laadpaallocaties.csv')
+    st.text(laadpaaldata.info())
 
-    st.text(openchargemap.info())
-
-    st.text(openchargemap.describe())
+    st.text(laadpaaldata.describe())
 
     # openchargemap["OverChargeTime"] = openchargemap["ConnectedTime"] - openchargemap["ChargeTime"]
-    print(openchargemap.head())
+    print(laadpaaldata.head())
 
     st.image('laadpaalafbeelding.jpeg')
     st.header('De data die wij onderzocht hebben:')
@@ -31,5 +30,5 @@ def app():
     st.markdown("* Wat is het verschil tussen laden en bezetten van een laadpaal?")
     st.markdown("* Hoe ziet het gemiddelde laadprofiel er uit?")
     st.markdown("* Wat is de verdeling in vermogens?")
-    st.dataframe(openchargemap)
-    st.line_chart(openchargemap)
+    st.dataframe(laadpaaldata)
+    st.line_chart(laadpaaldata)
