@@ -4,7 +4,6 @@ import numpy as np
 import seaborn as sns
 import requests
 import json as js
-from streamlit_folium import folium_static
 import folium
 
 # iterate over rows with iterrows()
