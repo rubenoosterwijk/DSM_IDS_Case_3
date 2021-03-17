@@ -232,6 +232,9 @@ def app():
     st.text(openchargemap.describe())
 
     # openchargemap["OverChargeTime"] = openchargemap["ConnectedTime"] - openchargemap["ChargeTime"]
+
+    st.header('Kort overzicht van de data:')
+
     print(openchargemap.head())
 
     st.image('laadpaalafbeelding.jpeg')
@@ -242,10 +245,10 @@ def app():
     st.markdown("* Hoeveel laadpalen zijn er in de loop van de jaren bijgekomen?")
     st.markdown("* Waar staan de laadpalen in Nederland en per stad?")
 
-    sns.histplot(data=openchargemap,
+    print(sns.histplot(data=openchargemap,
                  x="ChargerType",
                  shrink=.2,
-                 hue="ChargerType")
+                 hue="ChargerType"))
 
     st.dataframe(openchargemap)
     st.line_chart(openchargemap)
