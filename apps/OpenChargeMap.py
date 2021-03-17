@@ -254,19 +254,8 @@ def app():
     st.header('Als eerst hebben we de data gecleaned:')
 
     st.dataframe(openchargemap)
-    st.line_chart(openchargemap)
 
-    plekken = ["Amsterdam",
-               "Rotterdam",
-               "Den Haag",
-               "Utrecht",
-               "Nederland"]
-
-
-
-
-
-    user_input = st.text_input("label goes here", "Nederland")
+    user_input = st.text_input("Vul hier de stad in die je wilt bekijken", "Nederland")
 
     xd = openchargemap.sort_values(by=['DateCreated'])
 
