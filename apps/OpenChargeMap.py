@@ -254,10 +254,18 @@ def app():
 
     st.header('Vervolgens hebben we gekeken hoeveel laadpalen er zijn per laadtype, zoals hieronder te zien:')
 
+    st.header('HIERONDER MOET DE HISTPLOT ZIE STREAMLIT')
+
     sns.histplot(data=openchargemap,
                  x="ChargerType",
                  shrink=.2,
                  hue="ChargerType")
+
+    st.header('HIERONDER MOET DE BOXPLOT ZIE STREAMLIT')
+
+    sns.boxplot(x="NumberOfPoints", data=df, showfliers=False, palette="Set3")
+    plt.xlabel('Aantal stopcontacten')
+    plt.title('Aantal stopcontacten per locatie')
 
     user_input = st.text_input("Vul hier de stad in die je wilt bekijken", "Nederland")
 
@@ -277,7 +285,7 @@ def app():
 
     st.write('Your selected time between', start_slider, 'and', end_slider)
 
-    st.header('Zie hieronder de kaart met de uitslagen van de ingevoerde variabelen hierboven')
+    st.header('Zie hieronder de kaart met de uitslagen van de ingevoerde variabelen hierboven:')
 
     df = openchargemap.loc[((openchargemap['DateCreated'] > start_slider) & (openchargemap['DateCreated']< end_slider))]
     drawMap(df, user_input)
