@@ -235,7 +235,6 @@ def app():
 
     # openchargemap["OverChargeTime"] = openchargemap["ConnectedTime"] - openchargemap["ChargeTime"]
 
-    st.header('Als eerst hebben we de data gecleaned:')
 
     print(openchargemap.head())
 
@@ -252,6 +251,8 @@ def app():
                  shrink=.2,
                  hue="ChargerType")
 
+    st.header('Als eerst hebben we de data gecleaned:')
+
     st.dataframe(openchargemap)
     st.line_chart(openchargemap)
 
@@ -261,9 +262,7 @@ def app():
                "Utrecht",
                "Nederland"]
 
-    option = st.selectbox(
-        'How would you like to be contacted?',
-        (plekken))
+
 
     st.write('You selected:', option)
 
