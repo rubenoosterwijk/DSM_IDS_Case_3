@@ -263,7 +263,7 @@ def app():
 
     st.header('HIERONDER MOET DE BOXPLOT ZIE STREAMLIT')
 
-    sns.boxplot(x="NumberOfPoints", data=df, showfliers=False, palette="Set3")
+    sns.boxplot(x="NumberOfPoints", data=openchargemap, showfliers=False, palette="Set3")
     plt.xlabel('Aantal stopcontacten')
     plt.title('Aantal stopcontacten per locatie')
 
