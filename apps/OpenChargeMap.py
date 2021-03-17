@@ -235,12 +235,12 @@ def app():
     print(openchargemap.head())
 
     st.image('laadpaalafbeelding.jpeg')
-    st.header('De data die wij onderzocht hebben:')
+    st.header('De data die wij onderzocht hebben in Nederland:')
 
-    st.markdown("* Bezetting laadpalen")
-    st.markdown("* Wat is het verschil tussen laden en bezetten van een laadpaal?")
-    st.markdown("* Hoe ziet het gemiddelde laadprofiel er uit?")
-    st.markdown("* Wat is de verdeling in vermogens?")
+    st.markdown("* Hoeveel laadpalen zijn er per laadpaaltype")
+    st.markdown("* Wat zijn de kosten per laadpaal?")
+    st.markdown("* Hoeveel laadpalen zijn er in de loop van de jaren bijgekomen?")
+    st.markdown("* Waar staan de laadpalen in Nederland en per stad?")
 
     sns.histplot(data=openchargemap,
                  x="ChargerType",
