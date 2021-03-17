@@ -262,6 +262,8 @@ def app():
                  shrink=.2,
                  hue="ChargerType")
 
+    st.header('Hieronder is de verdeling te zien van stopcontacten per locatie')
+
     st.header('HIERONDER MOET DE BOXPLOT ZIE STREAMLIT')
 
     sns.boxplot(x="NumberOfPoints", data=openchargemap, showfliers=False, palette="Set3")
