@@ -225,6 +225,8 @@ def drawMap(df, optie):
 
 # Alles wat je runt per pagina moet in de def app(): komen. Anders runt hij de pagina niet.
 def app():
+    st.header('Kort overzicht van de data:')
+
     openchargemap = loadData()
 
     st.text(openchargemap.info())
@@ -233,14 +235,14 @@ def app():
 
     # openchargemap["OverChargeTime"] = openchargemap["ConnectedTime"] - openchargemap["ChargeTime"]
 
-    st.header('Kort overzicht van de data:')
+    st.header('Als eerst hebben we de data gecleaned:')
 
     print(openchargemap.head())
 
     st.image('laadpaalafbeelding.jpeg')
     st.header('De data die wij onderzocht hebben in Nederland:')
 
-    st.markdown("* Hoeveel laadpalen zijn er per laadpaaltype")
+    st.markdown("* Hoeveel laadpalen zijn er per laadpaaltype?")
     st.markdown("* Wat zijn de kosten per laadpaal?")
     st.markdown("* Hoeveel laadpalen zijn er in de loop van de jaren bijgekomen?")
     st.markdown("* Waar staan de laadpalen in Nederland en per stad?")
