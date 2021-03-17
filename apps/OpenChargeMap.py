@@ -149,6 +149,8 @@ def drawMap(df, optie):
                "Nederland": [52.0893191, 5.1101691]
     }
 
+
+
     if optie == "Nederland":
         control = True
         plek = cors[optie]
@@ -210,8 +212,12 @@ def drawMap(df, optie):
 
     macro = MacroElement()
     macro._template = Template(template)
-
     m.get_root().add_child(macro)
+
+    #HIER COLORPLETH TOEVOEGEN \|/
+
+
+
 
     folium.LayerControl().add_to(m)
     folium_static(m)
@@ -235,6 +241,12 @@ def app():
     st.markdown("* Wat is het verschil tussen laden en bezetten van een laadpaal?")
     st.markdown("* Hoe ziet het gemiddelde laadprofiel er uit?")
     st.markdown("* Wat is de verdeling in vermogens?")
+
+    sns.histplot(data=openchargemap,
+                 x="ChargerType",
+                 shrink=.2,
+                 hue="ChargerType")
+
     st.dataframe(openchargemap)
     st.line_chart(openchargemap)
 
@@ -250,8 +262,23 @@ def app():
 
     st.write('You selected:', option)
 
-    user_input = st.text_input("label goes here", "Amsterdam")
+    user_input = st.text_input("label goes here", "Nederland")
 
-    drawMap(openchargemap, user_input)
+    xd = openchargemap.sort_values(by=['DateCreated'])
+
+    col_one_list = xd['DateCreated'].tolist()
+
+    start_date = openchargemap['DateCreated'].iloc[0]
+    end_date = openchargemap['DateCreated'].iloc[-1]
+
+    start_slider, end_slider = st.select_slider(
+        'Select a range for dates created',
+        options=col_one_list,
+        value=(start_date, end_date))
+
+    st.write('Your selected time between', start_slider, 'and', end_slider)
+
+    df = openchargemap.loc[((openchargemap['DateCreated'] > start_slider) & (openchargemap['DateCreated']< end_slider))]
+    drawMap(df, user_input)
 
 
