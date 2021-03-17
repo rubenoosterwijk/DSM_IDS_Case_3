@@ -277,6 +277,8 @@ def app():
 
     st.write('Your selected time between', start_slider, 'and', end_slider)
 
+    st.header('Zie hieronder de kaart met de uitslagen van de ingevoerde variabelen hierboven')
+
     df = openchargemap.loc[((openchargemap['DateCreated'] > start_slider) & (openchargemap['DateCreated']< end_slider))]
     drawMap(df, user_input)
 
