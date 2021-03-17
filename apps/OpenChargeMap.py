@@ -245,10 +245,11 @@ def app():
     st.markdown("* Hoeveel laadpalen zijn er in de loop van de jaren bijgekomen?")
     st.markdown("* Waar staan de laadpalen in Nederland en per stad?")
 
-     print(sns.histplot(data=openchargemap,
+     sns.histplot(data=openchargemap,
                  x="ChargerType",
                  shrink=.2,
                  hue="ChargerType"))
+    st.pyplot()
 
     st.dataframe(openchargemap)
     st.line_chart(openchargemap)
