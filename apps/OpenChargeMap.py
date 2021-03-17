@@ -252,7 +252,7 @@ def app():
 
     st.dataframe(openchargemap)
 
-    st.header('Vervolgens hebben we gekeken hoeveel laadpalen er zijn per laadtype, zoals hier onder te zien:')
+    st.header('Vervolgens hebben we gekeken hoeveel laadpalen er zijn per laadtype, zoals hieronder te zien:')
 
     sns.histplot(data=openchargemap,
                  x="ChargerType",
@@ -267,6 +267,8 @@ def app():
 
     start_date = openchargemap['DateCreated'].iloc[0]
     end_date = openchargemap['DateCreated'].iloc[-1]
+
+    st.header('Hieronder staat een timeline om te kunnen zien waar er laadpalen zijn bijgekomen in de loop der jaren:')
 
     start_slider, end_slider = st.select_slider(
         'Select a range for dates created',
