@@ -264,7 +264,7 @@ def app():
 
 
 
-    st.write('You selected:', option)
+
 
     user_input = st.text_input("label goes here", "Nederland")
 
