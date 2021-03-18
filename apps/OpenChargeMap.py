@@ -237,14 +237,13 @@ def app():
 
     # openchargemap["OverChargeTime"] = openchargemap["ConnectedTime"] - openchargemap["ChargeTime"]
 
-    st.header('Kort overzicht van de data:')
 
     print(openchargemap.head())
 
-    st.image('laadpaalafbeelding.jpeg')
+    st.image('laadpaalafbeelding.jpeg', width=600)
     st.header('De data die wij onderzocht hebben in Nederland:')
 
-    st.markdown("* Hoeveel laadpalen zijn er per laadpaaltype")
+    st.markdown("* Hoeveel laadpalen zijn er per laadpaaltype?")
     st.markdown("* Wat zijn de kosten per laadpaal?")
     st.markdown("* Hoeveel laadpalen zijn er in de loop van de jaren bijgekomen?")
 
@@ -258,17 +257,13 @@ def app():
                  x="ChargerType",
                  shrink=.2,
                  hue="ChargerType"))
-
-    st.dataframe(openchargemap)
-
     st.pyplot()
     st.header('Hieronder is de verdeling te zien van stopcontacten per locatie')
 
 
     sns.boxplot(x="NumberOfPoints",
                 data=openchargemap,
-                showfliers=False,
-                palette="Set3")
+                showfliers=False)
     st.pyplot()
     plt.xlabel('Aantal stopcontacten')
 
@@ -286,6 +281,9 @@ def app():
 
 
     st.header('Hieronder staat een timeline om te kunnen zien waar er laadpalen zijn bijgekomen in de loop der jaren:')
+
+    st.text("Als je met de muis over de laadpaallocaties gaat zie je de kosten per laadpaal als die transparant zijn.)")
+
 
     start_slider, end_slider = st.select_slider(
         'Select a range for dates created',
