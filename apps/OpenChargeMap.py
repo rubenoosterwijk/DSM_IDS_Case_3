@@ -4,6 +4,7 @@ import numpy as np
 import seaborn as sns
 import requests
 import json as js
+from folium import plugins
 import folium
 import streamlit_folium
 from branca.element import Template, MacroElement
@@ -245,7 +246,7 @@ def app():
     st.markdown("* Hoeveel laadpalen zijn er in de loop van de jaren bijgekomen?")
     st.markdown("* Waar staan de laadpalen in Nederland en per stad?")
 
-     print(sns.histplot(data=openchargemap,
+    print(sns.histplot(data=openchargemap,
                  x="ChargerType",
                  shrink=.2,
                  hue="ChargerType"))
