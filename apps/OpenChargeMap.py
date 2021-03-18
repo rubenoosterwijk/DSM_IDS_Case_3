@@ -4,6 +4,7 @@ import numpy as np
 import seaborn as sns
 import requests
 import json as js
+from folium import plugins
 import folium
 import streamlit_folium
 from branca.element import Template, MacroElement
@@ -225,6 +226,8 @@ def drawMap(df, optie):
 
 # Alles wat je runt per pagina moet in de def app(): komen. Anders runt hij de pagina niet.
 def app():
+    st.header('Kort overzicht van de data:')
+
     openchargemap = loadData()
 
     st.text(openchargemap.info())
@@ -243,36 +246,50 @@ def app():
     st.markdown("* Hoeveel laadpalen zijn er per laadpaaltype")
     st.markdown("* Wat zijn de kosten per laadpaal?")
     st.markdown("* Hoeveel laadpalen zijn er in de loop van de jaren bijgekomen?")
-    st.markdown("* Waar staan de laadpalen in Nederland en per stad?")
 
-     print(sns.histplot(data=openchargemap,
+    st.header('Als eerst hebben we de data gecleaned:')
+
+    st.dataframe(openchargemap)
+
+    st.header('Vervolgens hebben we gekeken hoeveel laadpalen er zijn per laadtype, zoals hieronder te zien:')
+
+    print(sns.histplot(data=openchargemap,
                  x="ChargerType",
                  shrink=.2,
                  hue="ChargerType"))
 
     st.dataframe(openchargemap)
-    st.line_chart(openchargemap)
 
-    plekken = ["Amsterdam",
-               "Rotterdam",
-               "Den Haag",
-               "Utrecht",
-               "Nederland"]
+    st.header('Vervolgens hebben we gekeken hoeveel laadpalen er zijn per laadtype, zoals hieronder te zien:')
 
-    option = st.selectbox(
-        'How would you like to be contacted?',
-        (plekken))
+    st.header('HIERONDER MOET DE HISTPLOT ZIE STREAMLIT')
 
-    st.write('You selected:', option)
+    sns.histplot(data=openchargemap,
+                 x="ChargerType",
+                 shrink=.2,
+                 hue="ChargerType")
+    st.header('Hieronder is de verdeling te zien van stopcontacten per locatie')
 
-    user_input = st.text_input("label goes here", "Nederland")
+    st.header('HIERONDER MOETT DE BOXPLOT ZIE STREAMLIT')
+
+    sns.boxplot(x="NumberOfPoints", data=openchargemap, showfliers=False, palette="Set3")
+
+    plt.xlabel('Aantal stopcontacten')
+
+    plt.title('Aantal stopcontacten per locatie')
+
+    user_input = st.text_input("Vul hier de stad in die je wilt bekijken", "Nederland")
 
     xd = openchargemap.sort_values(by=['DateCreated'])
 
     col_one_list = xd['DateCreated'].tolist()
 
     start_date = openchargemap['DateCreated'].iloc[0]
+
     end_date = openchargemap['DateCreated'].iloc[-1]
+
+
+    st.header('Hieronder staat een timeline om te kunnen zien waar er laadpalen zijn bijgekomen in de loop der jaren:')
 
     start_slider, end_slider = st.select_slider(
         'Select a range for dates created',
@@ -281,7 +298,8 @@ def app():
 
     st.write('Your selected time between', start_slider, 'and', end_slider)
 
-    df = openchargemap.loc[((openchargemap['DateCreated'] > start_slider) & (openchargemap['DateCreated']< end_slider))]
+    st.header('Zie hieronder de kaart met de uitslagen van de ingevoerde variabelen hierboven:')
+
+    df = openchargemap.loc[
+        ((openchargemap['DateCreated'] > start_slider) & (openchargemap['DateCreated'] < end_slider))]
     drawMap(df, user_input)
-
-

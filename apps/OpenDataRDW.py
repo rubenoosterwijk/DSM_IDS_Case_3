@@ -19,7 +19,6 @@ def loadDatardw():
 
     dfdat = df6[['kenteken', 'datum_tenaamstelling', 'merk']]
 
-
     # https://opendata.rdw.nl/Voertuigen/Open-Data-RDW-Gekentekende_voertuigen_brandstof/8ys7-d773
     urlbr = 'https://opendata.rdw.nl/resource/8ys7-d773.csv?$limit=10000'
     dfbr = pd.read_csv(urlbr, low_memory=False, usecols=['kenteken', 'brandstof_omschrijving'])
@@ -34,11 +33,11 @@ def loadDatardw():
 
     # Hybrides zijn alle autos die 2x in de lijst voorkomen
     hybrides = totaal[totaal['kenteken'].duplicated(keep='last')]
-    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Elektriciteit'],'Hybride')
-    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Benzine'],'Hybride')
-    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Diesel'],'Hybride')
-    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Waterstof'],'Hybride')
-    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['LPG'],'Hybride')
+    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Elektriciteit'], 'Hybride')
+    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Benzine'], 'Hybride')
+    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Diesel'], 'Hybride')
+    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Waterstof'], 'Hybride')
+    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['LPG'], 'Hybride')
     hybrides = hybrides.reset_index(drop=True)
 
     # hybrides eerst weghalen en dan de opgeschoonde lijst toevoegen
@@ -47,8 +46,8 @@ def loadDatardw():
     totaal = totaal.append(hybrides, ignore_index=True)
 
     # Beide lijsten omzetten naar een juiste datetime
-    hybrides = hybrides.assign(datum_tenaamstelling = pd.to_datetime(hybrides['datum_tenaamstelling'], format='%Y%m%d'))
-    totaal = totaal.assign(datum_tenaamstelling = pd.to_datetime(totaal['datum_tenaamstelling'], format='%Y%m%d'))
+    hybrides = hybrides.assign(datum_tenaamstelling=pd.to_datetime(hybrides['datum_tenaamstelling'], format='%Y%m%d'))
+    totaal = totaal.assign(datum_tenaamstelling=pd.to_datetime(totaal['datum_tenaamstelling'], format='%Y%m%d'))
 
     # index omzetten naar datetime
     totaal = totaal.set_index('datum_tenaamstelling')
@@ -86,11 +85,14 @@ def loadDatardw():
     # verkrijg de top 10 verkochte auto's
     n = 10
     topmerken = pd.DataFrame(totaal['merk'].value_counts()[:n].index.tolist())
-
+    return typehoeveelheden, typebrandstof, topmerken
 
 # Alles wat je runt per pagina moet in de def app(): komen. Anders runt hij de pagina niet.
 def app():
-    # 1. Data Verzamelen en ordenen
+
+    datatype, databrandstof, datamerk = loadDatardw()
+
+    st.text(datatype.info())
 
     st.title('OpendataRDW')
 
@@ -103,21 +105,21 @@ def app():
 
     st.markdown("De top 10 meest verkochte merken zijn opgeslagen in een DataFrame en dit zijn:")
 
-    topmerken.head(10)
+    datamerk.head(10)
 
     st.markdown("Hieronder volgt de grafiek voor een aantal merken en hoeveel deze verkocht zijn over de jaren")
 
-    typehoeveelheden.plot()
+    datatype.plot()
 
     st.markdown("Hieronder volgt de grafiek voor een type brandstof en elektriciteit en hoeveel deze verkocht zijn over de jaren")
 
-    plt.plot(typebrandstof)
+    plt.plot(databrandstof)
     plt.xlabel("jaar")
     plt.ylabel("Aantal auto's")
     plt.title("Type brandstof verkocht over de jaren")
     plt.show()
 
-    plt.plot(typebrandstof['Elektriciteit'])
+    plt.plot(databrandstof['Elektriciteit'])
     plt.xlabel("jaar")
     plt.ylabel("Aantal auto's")
     plt.title("Elektrische auto's verkocht over de jaren")
