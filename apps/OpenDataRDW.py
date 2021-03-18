@@ -12,46 +12,7 @@ import matplotlib.pyplot as plt
 def loadDatardw():
     pd.options.mode.chained_assignment = None
 
-    # https://opendata.rdw.nl/Voertuigen/Open-Data-RDW-Gekentekende_voertuigen/m9d7-ebf2
-    url6 = 'https://opendata.rdw.nl/resource/m9d7-ebf2.csv?$limit=10000'
-    df6 = pd.read_csv(url6, usecols=['kenteken', 'datum_tenaamstelling', 'merk'])
-    df6.head()
-
-    dfdat = df6[['kenteken', 'datum_tenaamstelling', 'merk']]
-
-    # https://opendata.rdw.nl/Voertuigen/Open-Data-RDW-Gekentekende_voertuigen_brandstof/8ys7-d773
-    urlbr = 'https://opendata.rdw.nl/resource/8ys7-d773.csv?$limit=10000'
-    dfbr = pd.read_csv(urlbr, low_memory=False, usecols=['kenteken', 'brandstof_omschrijving'])
-    dfbr2 = dfbr[['kenteken', 'brandstof_omschrijving']]
-
-    # dfDat en dfBr2 merge van data
-    totaal = dfdat.merge(dfbr2, on='kenteken', how='outer', suffixes=('_1', '_2'))
-
-    # Weghalen NAN waardes en de index resetten
-    totaal = totaal.dropna()
-    totaal = totaal.reset_index(drop=True)
-
-    # Hybrides zijn alle autos die 2x in de lijst voorkomen
-    hybrides = totaal[totaal['kenteken'].duplicated(keep='last')]
-    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Elektriciteit'], 'Hybride')
-    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Benzine'], 'Hybride')
-    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Diesel'], 'Hybride')
-    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['Waterstof'], 'Hybride')
-    hybrides['brandstof_omschrijving'] = hybrides['brandstof_omschrijving'].replace(['LPG'], 'Hybride')
-    hybrides = hybrides.reset_index(drop=True)
-
-    # hybrides eerst weghalen en dan de opgeschoonde lijst toevoegen
-    totaal = totaal.drop_duplicates(subset='kenteken')
-    totaal = totaal.reset_index(drop=True)
-    totaal = totaal.append(hybrides, ignore_index=True)
-
-    # Beide lijsten omzetten naar een juiste datetime
-    hybrides = hybrides.assign(datum_tenaamstelling=pd.to_datetime(hybrides['datum_tenaamstelling'], format='%Y%m%d'))
-    totaal = totaal.assign(datum_tenaamstelling=pd.to_datetime(totaal['datum_tenaamstelling'], format='%Y%m%d'))
-
-    # index omzetten naar datetime
-    totaal = totaal.set_index('datum_tenaamstelling')
-    hybrides = hybrides.set_index('datum_tenaamstelling')
+    totaal = pd.read_csv("totaal.csv", index_col=0)
 
     # nieuwe lijst maken waarmee gerekend kan worden
     totaal2 = totaal
