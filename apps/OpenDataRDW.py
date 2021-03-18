@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import plotly.express as px
 
 
 # Loran Ris
@@ -18,8 +19,6 @@ def loadDatardw():
 
     # index omzetten naar datetime
     totaal = totaal.set_index('datum_tenaamstelling')
-
-    # lijst omzetten naar een juiste datetime
 
     # index omzetten naar datetime
 
@@ -59,6 +58,16 @@ def loadDatardw():
     topmerken = topmerken[0].rename('Merk')
 
     totaalhead = totaal.head(10)
+    totaalhead['jaar'] = pd.DatetimeIndex(totaalhead.index).year
+    totaalhead = totaalhead.reset_index(drop=True)
+    totaalhead = totaalhead.set_index('jaar')
+    totaalhead = totaalhead.drop('nummer', axis=1)
+    totaalhead = totaalhead.drop('aantal', axis=1)
+    totaalhead = totaalhead.drop('index', axis=1)
+
+    typebrandstof = typebrandstof.loc[(typebrandstof.index > '2000')]
+    typebrandstof = typebrandstof.loc[(typebrandstof.index > '2000')]
+
     return totaalhead, typehoeveelheden, typebrandstof, topmerken
 
 # Alles wat je runt per pagina moet in de def app(): komen. Anders runt hij de pagina niet.
@@ -68,35 +77,43 @@ def app():
 
     st.title('OpendataRDW')
 
-    st.header('Hieronder de omschrijving van de OpenRDWData:')
+    st.header('Hieronder de omschrijving van de verzameling en dataverwerking OpenRDWData:')
 
     st.markdown("* Inladen 2 datasets (datum_tenaamstelling/merk en het type brandstof")
     st.markdown("* Samenvoegen van deze dataset")
     st.markdown("* Eruithalen welk type merk er verkocht wordt en het type brandstof")
     st.markdown("* Opschonen zodat hybride auto's te zien zijn")
 
+    st.header('Importeren en opschonen data')
     st.markdown("Allereerst zijn 2 datasets ingeladen die betrekking hadden tot de datum/tenaamstelling en het type brandstof")
-    st.markdown("Deze datasets zijn samengevoegd door middel van een pandas merge, om vervolgens een totale dataframe te verkrijgen")
+    st.markdown("Deze datasets zijn samengevoegd door middel van een pandas.merge, om vervolgens een totale dataframe te verkrijgen")
     st.dataframe(totaalexample)
 
+    st.markdown("Het kenteken is hier niet meer van belang, omdat de data al opgeschoond is in jupyter. Daarnaast nam een kolom met de waardes van kentekens teveel ruimte op max 100Mb was helaas toegestaan")
+
+    st.header("Meest verkochte auto's op basis van merk")
     st.markdown("De top 10 meest verkochte merken zijn opgeslagen in een DataFrame en dit zijn:")
     st.dataframe(datamerk)
+
     st.markdown("Hieronder volgt de grafiek voor een aantal merken en hoeveel deze verkocht zijn over de jaren")
 
-    datatype.plot()
+    st.line_chart(datatype)
 
-    st.markdown("Hieronder volgt de grafiek voor een type brandstof en elektriciteit en hoeveel deze verkocht zijn over de jaren")
+    st.header("Verkochte auto's op basis van type brandstof")
+    st.markdown("Hieronder volgt de grafiek voor een type brandstof hoeveel deze verkocht zijn over de jaren")
 
-    plt.plot(databrandstof)
-    plt.xlabel("jaar")
-    plt.ylabel("Aantal auto's")
-    plt.title("Type brandstof verkocht over de jaren")
-    plt.show()
+    st.line_chart(databrandstof)
 
-    plt.plot(databrandstof['Elektriciteit'])
-    plt.xlabel("jaar")
-    plt.ylabel("Aantal auto's")
-    plt.title("Elektrische auto's verkocht over de jaren")
-    plt.show()
+    st.markdown("Hieronder volgt de grafiek voor alleen elektrische auto's hoeveel deze verkocht zijn over de jaren")
+
+    st.line_chart(databrandstof['Elektriciteit'])
+
+    st.header("Hybride auto's")
+
+    df = px.data.gapminder().query("year == 2007").query("continent == 'Europe'")
+    df.loc[df['pop'] < 2.e6, 'country'] = 'Other countries'  # Represent only large countries
+    fig = px.pie(df, values='pop', names='country', title='Population of European continent')
+    fig.show()
+
 
 app()
