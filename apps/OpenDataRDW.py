@@ -67,7 +67,7 @@ def loadDatardw():
     typehoeveelheden['AUDI'] = totaal[totaal['merk'] == 'AUDI'].aantal.resample('Y').sum()
     typehoeveelheden['BMW'] = totaal[totaal['merk'] == 'BMW'].aantal.resample('Y').sum()
     typehoeveelheden = typehoeveelheden.drop(columns='TOTAAL')
-    typehoeveelheden = typehoeveelheden.loc[(Typehoeveelheden.index < '1954-12-31') | (Typehoeveelheden.index > '1995-12-31')]
+    typehoeveelheden = typehoeveelheden.loc[(typehoeveelheden.index < '1954-12-31') | (typehoeveelheden.index > '1995-12-31')]
 
     # Hieronder een lijst met de types brandstoffen
     typebrandstof = pd.DataFrame()
@@ -105,11 +105,13 @@ def app():
 
     st.markdown("De top 10 meest verkochte merken zijn opgeslagen in een DataFrame en dit zijn:")
 
-    datamerk.head(10)
+    st.write(datamerk.head(10))
 
     st.markdown("Hieronder volgt de grafiek voor een aantal merken en hoeveel deze verkocht zijn over de jaren")
 
     datatype.plot()
+
+    st.pyplot()
 
     st.markdown("Hieronder volgt de grafiek voor een type brandstof en elektriciteit en hoeveel deze verkocht zijn over de jaren")
 
@@ -119,8 +121,11 @@ def app():
     plt.title("Type brandstof verkocht over de jaren")
     plt.show()
 
+    st.pyplot()
+
     plt.plot(databrandstof['Elektriciteit'])
     plt.xlabel("jaar")
     plt.ylabel("Aantal auto's")
     plt.title("Elektrische auto's verkocht over de jaren")
     plt.show()
+    st.pyplot()

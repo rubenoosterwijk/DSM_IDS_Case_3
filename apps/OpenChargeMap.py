@@ -8,6 +8,7 @@ from folium import plugins
 import folium
 import streamlit_folium
 from branca.element import Template, MacroElement
+import matplotlib.pyplot as plt
 
 # iterate over rows with iterrows()
 types = ['Fast Charge AC',
