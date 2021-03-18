@@ -106,12 +106,12 @@ template = """
 {% endmacro %}"""
 
 
-
 def color_producer(type):
     if type == "Fast Charge AC":
         return 'blue'
     if type == "Rapid Charge DC":
         return 'green'
+
 
 # Bud De data van de locaties van de laadpalen verstrekken. Onthoud je gaat met de map werken en je moet dus een maar weergeven op streamlit.
 # Kijk alvast naar voorbeelden op de site of we met de map exrtra interactieve dingen kunnen doen (widget gebruik)
@@ -145,13 +145,11 @@ def drawMap(df, optie):
     import folium
 
     cors = {"Amsterdam": [52.3702157, 4.8951679],
-               "Rotterdam": [51.9244201, 4.4777325],
-               "Den Haag": [52.0704978,	4.3006999],
-               "Utrecht": [52.0893191, 5.1101691],
-               "Nederland": [52.0893191, 5.1101691]
-    }
-
-
+            "Rotterdam": [51.9244201, 4.4777325],
+            "Den Haag": [52.0704978, 4.3006999],
+            "Utrecht": [52.0893191, 5.1101691],
+            "Nederland": [52.0893191, 5.1101691]
+            }
 
     if optie == "Nederland":
         control = True
@@ -168,7 +166,7 @@ def drawMap(df, optie):
                    zoom_control=control,
                    scrollWheelZoom=control,
                    dragging=control,
-                   control_scale = True)
+                   control_scale=True)
     # add marker for Liberty Bell
 
     # call to render Folium map in Streamlit
@@ -216,10 +214,7 @@ def drawMap(df, optie):
     macro._template = Template(template)
     m.get_root().add_child(macro)
 
-    #HIER COLORPLETH TOEVOEGEN \|/
-
-
-
+    # HIER COLORPLETH TOEVOEGEN \|/
 
     folium.LayerControl().add_to(m)
     folium_static(m)
@@ -237,7 +232,6 @@ def app():
 
     # openchargemap["OverChargeTime"] = openchargemap["ConnectedTime"] - openchargemap["ChargeTime"]
 
-
     print(openchargemap.head())
 
     st.image('laadpaalafbeelding.jpeg', width=600)
@@ -254,12 +248,11 @@ def app():
     st.header('Vervolgens hebben we gekeken hoeveel laadpalen er zijn per laadtype, zoals hieronder te zien:')
 
     (sns.histplot(data=openchargemap,
-                 x="ChargerType",
-                 shrink=.2,
-                 hue="ChargerType"))
+                  x="ChargerType",
+                  shrink=.2,
+                  hue="ChargerType"))
     st.pyplot()
     st.header('Hieronder is de verdeling te zien van stopcontacten per locatie')
-
 
     sns.boxplot(x="NumberOfPoints",
                 data=openchargemap,
@@ -279,11 +272,9 @@ def app():
 
     end_date = openchargemap['DateCreated'].iloc[-1]
 
-
     st.header('Hieronder staat een timeline om te kunnen zien waar er laadpalen zijn bijgekomen in de loop der jaren:')
 
     st.text("Als je met de muis over de laadpaallocaties gaat zie je de kosten per laadpaal als die transparant zijn.)")
-
 
     start_slider, end_slider = st.select_slider(
         'Select a range for dates created',

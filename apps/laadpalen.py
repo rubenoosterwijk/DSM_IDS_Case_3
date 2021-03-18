@@ -22,7 +22,7 @@ def main():
     laadpaaldata['Ended'] = pd.to_datetime(laadpaaldata['Ended'], format='%Y-%m-%d %H:%M:%S')
 
     # st.write(laadpaaldata.describe())
-    #------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------
 
     colomns = ["TotalEnergy", "ConnectedTime", "ChargeTime", "MaxPower", "OverCharged", "Weekday"]
 
@@ -64,8 +64,7 @@ def main():
         sns.histplot(data=df2, x=option2, bins="auto")
         st.pyplot()
 
-
-    #------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------
 
     st.subheader(
         "Een histogram van de laadtijd met de bijhorende boxplot.\n"
@@ -83,9 +82,7 @@ def main():
     sns.boxplot(data=df2, x="ChargeTime")
     st.pyplot()
 
-
-    #------------------------------------------------------------------------------------------------------
-
+    # ------------------------------------------------------------------------------------------------------
 
     sns.histplot(data=laadpaaldata, x="ChargeTime", y="ConnectedTime", bins=40, cbar=True, cbar_kws=dict(shrink=.75))
 
@@ -94,7 +91,7 @@ def main():
 
     plt.legend(["mean", "median"])
     st.pyplot()
-    #------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------
     st.subheader(
         "Een scatterplot over tijd.\n"
         "Gebruik de tijdslider en de dropdown menu om een column te selecteren")
@@ -122,7 +119,7 @@ def main():
     plt.xticks(rotation=45)
 
     st.pyplot()
-    #------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------
 
 
 # Alles wat je runt per pagina moet in de def app(): komen. Anders runt hij de pagina niet.
@@ -130,4 +127,3 @@ def app():
     # Draw Upper Header
     header()
     main()
-

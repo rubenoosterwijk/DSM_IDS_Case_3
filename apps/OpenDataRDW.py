@@ -28,7 +28,8 @@ def loadDatardw():
     typehoeveelheden['AUDI'] = totaal[totaal['merk'] == 'AUDI'].aantal.resample('Y').sum()
     typehoeveelheden['BMW'] = totaal[totaal['merk'] == 'BMW'].aantal.resample('Y').sum()
     typehoeveelheden = typehoeveelheden.drop(columns='TOTAAL')
-    typehoeveelheden = typehoeveelheden.loc[(typehoeveelheden.index < '1954-12-31') | (typehoeveelheden.index > '1995-12-31')]
+    typehoeveelheden = typehoeveelheden.loc[
+        (typehoeveelheden.index < '1954-12-31') | (typehoeveelheden.index > '1995-12-31')]
 
     # Hieronder een lijst met de types brandstoffen
     typebrandstof = pd.DataFrame()
@@ -37,7 +38,8 @@ def loadDatardw():
 
     typebrandstof['Benzine'] = totaal[totaal['brandstof_omschrijving'] == 'Benzine'].aantal.resample('Y').sum()
     typebrandstof['Diesel'] = totaal[totaal['brandstof_omschrijving'] == 'Diesel'].aantal.resample('Y').sum()
-    typebrandstof['Elektriciteit'] = totaal[totaal['brandstof_omschrijving'] == 'Elektriciteit'].aantal.resample('Y').sum()
+    typebrandstof['Elektriciteit'] = totaal[totaal['brandstof_omschrijving'] == 'Elektriciteit'].aantal.resample(
+        'Y').sum()
     typebrandstof['Hybride'] = totaal[totaal['brandstof_omschrijving'] == 'Hybride'].aantal.resample('Y').sum()
     typebrandstof['Waterstof'] = totaal[totaal['brandstof_omschrijving'] == 'Waterstof'].aantal.resample('Y').sum()
 
@@ -48,9 +50,9 @@ def loadDatardw():
     topmerken = pd.DataFrame(totaal['merk'].value_counts()[:n].index.tolist())
     return typehoeveelheden, typebrandstof, topmerken
 
+
 # Alles wat je runt per pagina moet in de def app(): komen. Anders runt hij de pagina niet.
 def app():
-
     datatype, databrandstof, datamerk = loadDatardw()
 
     st.text(datatype.info())
@@ -74,7 +76,8 @@ def app():
 
     st.pyplot()
 
-    st.markdown("Hieronder volgt de grafiek voor een type brandstof en elektriciteit en hoeveel deze verkocht zijn over de jaren")
+    st.markdown(
+        "Hieronder volgt de grafiek voor een type brandstof en elektriciteit en hoeveel deze verkocht zijn over de jaren")
 
     plt.plot(databrandstof)
     plt.xlabel("jaar")
