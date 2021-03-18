@@ -67,7 +67,7 @@ def loadDatardw():
     typehoeveelheden['AUDI'] = totaal[totaal['merk'] == 'AUDI'].aantal.resample('Y').sum()
     typehoeveelheden['BMW'] = totaal[totaal['merk'] == 'BMW'].aantal.resample('Y').sum()
     typehoeveelheden = typehoeveelheden.drop(columns='TOTAAL')
-    typehoeveelheden = typehoeveelheden.loc[(Typehoeveelheden.index < '1954-12-31') | (Typehoeveelheden.index > '1995-12-31')]
+    typehoeveelheden = typehoeveelheden.loc[(typehoeveelheden.index < '1954-12-31') | (typehoeveelheden.index > '1995-12-31')]
 
     # Hieronder een lijst met de types brandstoffen
     typebrandstof = pd.DataFrame()
