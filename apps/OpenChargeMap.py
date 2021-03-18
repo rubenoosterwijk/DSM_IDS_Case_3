@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import seaborn as sns
-import matplotlib.pyplot as plt
 import requests
 import json as js
 from folium import plugins
@@ -217,6 +216,11 @@ def drawMap(df, optie):
     macro._template = Template(template)
     m.get_root().add_child(macro)
 
+    #HIER COLORPLETH TOEVOEGEN \|/
+
+
+
+
     folium.LayerControl().add_to(m)
     folium_static(m)
 
@@ -250,37 +254,24 @@ def app():
 
     st.header('Vervolgens hebben we gekeken hoeveel laadpalen er zijn per laadtype, zoals hieronder te zien:')
 
-    ax = sns.histplot(data=openchargemap,
+    (sns.histplot(data=openchargemap,
                  x="ChargerType",
                  shrink=.2,
-                 hue="ChargerType")
-    ax.set(xlabel="Xlabel", ylabel= "Y Label", title="Title")
-
-    st.pyplot.ax
+                 hue="ChargerType"))
 
     st.dataframe(openchargemap)
 
-    st.header('Vervolgens hebben we gekeken hoeveel laadpalen er zijn per laadtype, zoals hieronder te zien:')
-
-    st.header('HIERONDER MOET DE HISTPLOT ZIE STREAMLIT')
-
-    ax2 = sns.histplot(data=openchargemap,
-                 x="ChargerType",
-                 shrink=.2,
-                 hue="ChargerType")
-    ax2.set(xlabel="xlabel", ylabel="ylabel", title="title")
-
-    st.pyplot(ax2)
-
+    st.pyplot()
     st.header('Hieronder is de verdeling te zien van stopcontacten per locatie')
 
-    st.header('HIERONDER MOETT DE BOXPLOT ZIE STREAMLIT')
 
     sns.boxplot(x="NumberOfPoints",
                 data=openchargemap,
                 showfliers=False,
                 palette="Set3")
+    st.pyplot()
     plt.xlabel('Aantal stopcontacten')
+
     plt.title('Aantal stopcontacten per locatie')
 
     user_input = st.text_input("Vul hier de stad in die je wilt bekijken", "Nederland")
@@ -307,5 +298,4 @@ def app():
 
     df = openchargemap.loc[
         ((openchargemap['DateCreated'] > start_slider) & (openchargemap['DateCreated'] < end_slider))]
-
     drawMap(df, user_input)
