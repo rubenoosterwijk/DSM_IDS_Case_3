@@ -120,5 +120,3 @@ def app():
     header()
     main()
 
-
-app()
