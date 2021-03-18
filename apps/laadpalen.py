@@ -25,61 +25,93 @@ def main():
     laadpaaldata['Started'] = pd.to_datetime(laadpaaldata['Started'], format='%Y-%m-%d %H:%M:%S')
     laadpaaldata['Ended'] = pd.to_datetime(laadpaaldata['Ended'], format='%Y-%m-%d %H:%M:%S')
 
-    # st.dataframe(laadpaaldata)
-    # buffer = io.StringIO()
-    # laadpaaldata.info(buf=buffer)
-    #
-    # s = buffer.getvalue()
-    #
-    # # De Started en Ended colommen zijn objecten en géén DateTime types.
-    # st.text(s)
+    # st.write(laadpaaldata.describe())
 
-    mindatum = laadpaaldata['Ended'].iloc[0]
-    maxdatum = laadpaaldata['Ended'].iloc[-1]
+    colomns = ["TotalEnergy", "ConnectedTime", "ChargeTime", "MaxPower", "OverCharged", "Weekday"]
 
-    start_date = st.date_input(label='Start date',
-                               value=mindatum,
-                               min_value=mindatum,
-                               max_value=maxdatum)
+    option2 = st.selectbox(
+        'Selecteer uw column voor de histogram?',
+        (colomns))
+    st.write('You selected:', option2)
 
-    end_date = st.date_input(label='End date',
-                             value=maxdatum,
-                             min_value=mindatum,
-                             max_value=maxdatum)
+    if option2=="Weekday":
 
-    if start_date < end_date:
-        st.success('Start date: `%s`\n\nEnd date:`%s`' % (start_date, end_date))
-        start_date = pd.to_datetime(start_date)
-        end_date = pd.to_datetime(end_date)
-        laadpaaldata2 = laadpaaldata.loc[
-            ((start_date <= laadpaaldata['Started']) & (end_date >= laadpaaldata['Ended']))]
-        st.dataframe(laadpaaldata2)
+        week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        optionsdict = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3, 'Friday': 4, 'Saturday': 5, 'Sunday': 6}
+
+        week1, week2 = st.select_slider(
+            'Select a range for dates created',
+            options=week,
+            value=('Monday', 'Sunday'))
+
+        week3 = optionsdict[week1]
+        week4 = optionsdict[week2]
+
+        st.write(week3, week4)
+
+        st.dataframe(laadpaaldata)
+        df2 = laadpaaldata.loc[
+            ((laadpaaldata['Weekday'] >= week3) & (laadpaaldata['Weekday'] <= week4))]
+        # st.dataframe(df2)
+
+        sns.histplot(data=df2, x=option2)
+        st.pyplot()
     else:
-        st.error('Error: End date must fall after start date.')
+        df2 = laadpaaldata
+        sns.histplot(data=df2, x=option2)
+        st.pyplot()
 
-    st.write(mindatum, maxdatum)
-    fig, ax = plt.subplots()
-    st.write(laadpaaldata.describe())
 
-    st.date_input("Selecteer hier de begindatum", value=laadpaaldata["Started"][0], min_value=None, max_value=None,
-                  key=None)
-    # st.bar_chart(laadpaaldata["OverChargeTime"])
-    #
-    # # ax = laadpaaldata["OverChargeTime"].hist(bins=100, range=[0,100])
-    #
-    # # st.write(alt.Chart(laadpaaldata).mark_bar().encode(
-    # #     x=alt.X("Started", bin=True),
-    # #     y='count()'
-    # # ))
-    #
-    # # # ax.hist(laadpaaldata["OverChargeTime"], range[0,100])
-    # # plt.show()
-    #
-    # # st.pyplot(fig)
-    # # print(laadpaaldata.head())
-    # st.line_chart(laadpaaldata)
-    # st.pyplot()
 
+    # options = st.multiselect(
+    #     'Selecteer de weekdagen', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    #     ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
+
+    # st.dataframe(df2)
+
+    sns.histplot(data=df2, x="ChargeTime", bins=30, kde=True, element="step")
+
+    plt.axvline(x=laadpaaldata.ChargeTime.mean(), linewidth=1, color='g', label="mean", alpha=0.5)
+    plt.axvline(x=laadpaaldata.ChargeTime.median(), linewidth=1, color='y', label="median", alpha=0.5)
+
+    plt.legend(["mean", "median"])
+    st.pyplot()
+
+    sns.histplot(data=laadpaaldata, x="ChargeTime", y="ConnectedTime", bins=40, cbar=True, cbar_kws=dict(shrink=.75))
+
+    plt.axvline(x=laadpaaldata.ChargeTime.mean(), linewidth=1, color='g', label="mean", alpha=0.5)
+    plt.axvline(x=laadpaaldata.ChargeTime.median(), linewidth=1, color='y', label="median", alpha=0.5)
+
+    plt.legend(["mean", "median"])
+    st.pyplot()
+
+
+
+    colomns = ["TotalEnergy", "ConnectedTime", "ChargeTime", "MaxPower"]
+    col_one_list = laadpaaldata['Started'].tolist()
+
+    start_date = laadpaaldata['Started'].iloc[0]
+    end_date = laadpaaldata['Started'].iloc[-1]
+
+    option3 = st.selectbox(
+        'Selecteer uw column voor de y-as',
+        (colomns))
+    st.write('You selected:', option3)
+
+
+    start_slider, end_slider = st.select_slider(
+        'Select a range for dates created',
+        options=col_one_list,
+        value=(start_date, end_date))
+
+    st.write('Your selected time between', start_slider, 'and', end_slider)
+    df = laadpaaldata.loc[
+        ((laadpaaldata['Started'] > start_slider) & (laadpaaldata['Ended'] < end_slider))]
+
+    sns.scatterplot(data=df, x="Started", y=option3)
+    plt.xticks(rotation=45)
+
+    st.pyplot()
 
 
 # Alles wat je runt per pagina moet in de def app(): komen. Anders runt hij de pagina niet.
@@ -87,3 +119,6 @@ def app():
     # Draw Upper Header
     header()
     main()
+
+
+app()

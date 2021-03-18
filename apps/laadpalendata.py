@@ -48,6 +48,7 @@ def convertDataframe(laadpaaldata):
     s = buffer.getvalue()
 
     # De Started en Ended colommen zijn objecten en géén DateTime types.
+    st.text("Zoals we kunnen zien zijn de Started en Ended colommen zijn objecten en géén DateTime types.")
     st.text(s)
 
     # Nu de data van de beide geen ongeldige combinaties van dag en maand heeft, kunnen we de colommen converteren naar een datetime64[ns] type
@@ -65,16 +66,14 @@ def convertDataframe(laadpaaldata):
 
     laadpaaldata = laadpaaldata.reset_index()
 
-    # laadpaaldata.info()
-    # laadpaaldata.describe()
+    st.text("Na het converteren van het datatype hebben we iij nog een paar extra datumcolommen toegevoegd.")
 
-    laadpaaldata.info(buf=buffer)
-    s = buffer.getvalue()
+    laadpaaldata["WattPerUur"] = laadpaaldata["TotalEnergy"] / laadpaaldata["ChargeTime"]
 
-    # De Started en Ended colommen zijn objecten en géén DateTime types.
-    st.text(s)
+    laadpaaldata = laadpaaldata.loc[laadpaaldata["ChargeTime"] > 0]
+
+    st.text("Ons uiteindelijke dataframe:")
     st.dataframe(laadpaaldata)
-
     laadpaaldata.to_csv("laadpaaldataClean.csv")
 
     # st.pyplot(sns.lineplot(x="Started", y="OverChargeTime", hue="Weekday", data=laadpaaldata))

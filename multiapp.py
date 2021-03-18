@@ -1,7 +1,7 @@
 """Frameworks for running multiple Streamlit applications as a single app.
 """
 import streamlit as st
-
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 class MultiApp:
     """Framework for combining multiple streamlit applications.
