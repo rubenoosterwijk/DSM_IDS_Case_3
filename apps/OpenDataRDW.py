@@ -13,14 +13,14 @@ def loadDatardw():
     pd.options.mode.chained_assignment = None
 
     # https://opendata.rdw.nl/Voertuigen/Open-Data-RDW-Gekentekende_voertuigen/m9d7-ebf2
-    url6 = 'https://opendata.rdw.nl/resource/m9d7-ebf2.csv?$limit=10000'
+    url6 = 'https://opendata.rdw.nl/resource/m9d7-ebf2.csv?$limit=8000000'
     df6 = pd.read_csv(url6, usecols=['kenteken', 'datum_tenaamstelling', 'merk'])
     df6.head()
 
     dfdat = df6[['kenteken', 'datum_tenaamstelling', 'merk']]
 
     # https://opendata.rdw.nl/Voertuigen/Open-Data-RDW-Gekentekende_voertuigen_brandstof/8ys7-d773
-    urlbr = 'https://opendata.rdw.nl/resource/8ys7-d773.csv?$limit=10000'
+    urlbr = 'https://opendata.rdw.nl/resource/8ys7-d773.csv?$limit=8000000'
     dfbr = pd.read_csv(urlbr, low_memory=False, usecols=['kenteken', 'brandstof_omschrijving'])
     dfbr2 = dfbr[['kenteken', 'brandstof_omschrijving']]
 
