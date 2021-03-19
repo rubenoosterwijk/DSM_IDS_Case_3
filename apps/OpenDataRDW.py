@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 def loadDatardw():
     pd.options.mode.chained_assignment = None
 
-    totaal = pd.read_csv("../totaal.csv")
+    totaal = pd.read_csv("../totaal2.csv")
     totaal.reset_index(level=0, inplace=True)
     totaal = totaal.assign(datum_tenaamstelling=pd.to_datetime(totaal['datum_tenaamstelling'], format='%Y'))
 
@@ -114,4 +114,3 @@ def app():
     st.bar_chart(databrandstof[['Hybride', 'Elektriciteit']])
 
 
-app()
