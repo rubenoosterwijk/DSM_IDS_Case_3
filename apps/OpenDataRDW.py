@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-import plotly.express as px
 
 
 # Loran Ris
@@ -110,10 +109,9 @@ def app():
 
     st.header("Hybride auto's")
 
-    df = px.data.gapminder().query("year == 2007").query("continent == 'Europe'")
-    df.loc[df['pop'] < 2.e6, 'country'] = 'Other countries'  # Represent only large countries
-    fig = px.pie(df, values='pop', names='country', title='Population of European continent')
-    fig.show()
+    st.markdown("Hieronder volgt de grafiek voor alleen hybride auto's hoeveel deze verkocht zijn over de jaren")
+
+    st.bar_chart(databrandstof[['Hybride', 'Elektriciteit']])
 
 
 app()
